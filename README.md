@@ -1,68 +1,82 @@
-# satellite-land-cover
+# 🌍 Satellite Land Cover Classification with Sen4Map
 
-## Step 0 - Environmental Setup
-All libraries can be found in the .yaml file.
+This project applies machine learning to Sentinel-2 imagery using the Sen4Map benchmark dataset to classify land cover types in the United Kingdom.
 
-## Step 1 - Data Setup
-Note: _Please download the "United_Kingdom.h5" file from the source here: https://datapub.fz-juelich.de/sen4map/country-wise/_
+---
 
-| sen4map Country | Size   | Last Modified by Creator |
-| :--------------- | ---: | :------------------ |
-| United Kingdom | 51.0 G | 2024-08-15 11:31 |
+## 📦 Step 0 – Environment Setup
 
-Data Source: https://datapub.fz-juelich.de/sen4map/
-_(The Sen4Map Benchmark dataset and code used in the project are distributed under MIT License)_
-S. Sharma, R. Sedona, M. Riedel, G. Cavallaro, C. Paris, "Sen4Map: Advancing Mapping with Sentinel-2 by Providing Detailed Semantic Descriptions and Customizable Land-Use and Land-Cover Data," in IEEE Journal of Selected Topics in Applied Earth Observations and Remote Sensing (JSTARS), vol. 17, pp. 13893-13907, 2024, https://doi.org/10.1109/JSTARS.2024.3435081.
+All required libraries are listed in `environmental.yml`:
 
-## Step 2 - Run Exploratory Data Analysis
+        conda env create -f environment.yml 
+        conda activate senmap
 
-*Optional*: Run 01_Data-Explore.ipynb to view the dataset and satellite image bands
 
-Run the 02_Data-Analysis.ipynb to recreate the charts and graphs from the paper
 
-## Step 3 - Set up ML pipeline 
-### 3.1 Train-test-val files
-Preprocesing ML Data
-These sets of code processes the source file "United_Kingdom.h5" into the train-test-val csv files for the baseline, 5km median aggregation and 10-nn scenarios respectively.
+---
 
-⚠️ *Note*: These h5 files may take a LONG TIME TO PROCESS due to the nature of the file type and number of image bands within (>250,000). Alternatively, skip this step as the output files are saved nicely in the github repo for use.
+## 🗂️ Step 1 – Data Setup
 
-To sum up ...
+Download `United_Kingdom.h5` from the Sen4Map dataset repository:
 
-Input file: 
+https://datapub.fz-juelich.de/sen4map/country-wise/
 
-        United_Kingdom.h5
+| Country         | Size   | Last Modified         |
+|----------------|--------|------------------------|
+| United Kingdom | 51.0 GB | 2024-08-15 11:31       |
 
-Output files:
+**License:** MIT  
+**Citation:**  
+S. Sharma et al., *Sen4Map: Advancing Mapping with Sentinel-2 by Providing Detailed Semantic Descriptions and Customizable Land-Use and Land-Cover Data*, IEEE JSTARS, 2024. https://doi.org/10.1109/JSTARS.2024.3435081
 
-    1. Baseline (no spatial data) scenario:
+---
 
-        uk_monthly_test_norm.csv
+## 📊 Step 2 – Exploratory Data Analysis
 
-        uk_monthly_train_norm.csv
+- *(Optional)* Run `01_Data-Explore.ipynb` to explore the dataset and Sentinel-2 bands.
+- Run `02_Data-Analysis.ipynb` to recreate key visualisations from the study.
 
-        uk_monthly_val_norm.csv
+---
 
-    2. 10-Nearest Neighbours scenario:
+## 🧪 Step 3 – Machine Learning Pipeline
 
-        uk_monthly_test_10nn_norm.csv
+### 3.1 Preprocessing: Train-Test-Validation Split
 
-        uk_monthly_train_10nn_norm.csv
+Run `03_ml-setup.ipynb` to generate training, validation, and test sets from the raw .h5 file. This script produces input CSVs for the baseline, 5 km median aggregation, and 10-nearest neighbour (10-NN) variants.
 
-        uk_monthly_val_10nn_norm.csv
+**Input:** `United_Kingdom.h5` 
 
-    3. 5km Median Aggregation scenario:
+**Outputs:**
 
-        uk_monthly_test_adj_norm.csv
+  - **Baseline (no spatial context)**  
+    - `uk_monthly_train_norm.csv`  
+    - `uk_monthly_val_norm.csv`  
+    - `uk_monthly_test_norm.csv`  
 
-        uk_monthly_train_adj_norm.csv
-        
-        uk_monthly_val_adj_norm.csv
-### 3.2 ML Models for Different Scenarios 
-#### 3.2.1 Baseline (No spatial aggregation)
-#### 3.2.2 10-Nearest Neighbours
-#### 3.2.3 5km Median Aggregation (Main model used for this study)
+  - **10-Nearest Neighbours (kNN)**  
+    - `uk_monthly_train_10nn_norm.parquet` *(convert to CSV before use)*  
+    - `uk_monthly_val_10nn_norm.csv`  
+    - `uk_monthly_test_10nn_norm.csv`  
 
-### 3.3 Visualisations from ML model
+  - **5 km Median Aggregation (Main model)**  
+    - `uk_monthly_train_adj_norm.csv`  
+    - `uk_monthly_val_adj_norm.csv`  
+    - `uk_monthly_test_adj_norm.csv`
 
+⚠️ **Note:** Processing `.h5` files can take time due to size (~250,000 samples). You can skip this step by using the pre-generated outputs included in the repository.
+
+---
+
+### 3.2 Model Training & Evaluation
+
+🔵 **Main Model (5 km aggregation) and Visualisations Used in Report:**  
+Run `04_ml-adj.ipynb`
+
+⚫️ **Baseline (no spatial features):**  
+Run `05_ml-baseline.ipynb`
+
+⚫️ **10-Nearest Neighbours (optional):**  
+Run `06_ml-10nn.ipynb`
+
+---
 
