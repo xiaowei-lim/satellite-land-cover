@@ -1,6 +1,9 @@
 # satellite-land-cover
-## Step 1 - Data Setup
 
+## Step 0 - Environmental Setup
+All libraries can be found in the .yaml file.
+
+## Step 1 - Data Setup
 Note: _Please download the "United_Kingdom.h5" file from the source here: https://datapub.fz-juelich.de/sen4map/country-wise/_
 
 | sen4map Country | Size   | Last Modified by Creator |
@@ -13,7 +16,8 @@ S. Sharma, R. Sedona, M. Riedel, G. Cavallaro, C. Paris, "Sen4Map: Advancing Map
 
 ## Step 2 - Run Exploratory Data Analysis
 
-Run the EDSA.ipynb to recreate the charts and graphs from the paper
+*Optional*: Run 01_Data-Explore.ipynb to view the dataset and satellite image bands
+Run the 02_Data-Analysis.ipynb to recreate the charts and graphs from the paper
 
 ## Step 3 - Set up ML pipeline 
 ### 3.1 Train-test-val files
